@@ -10,6 +10,8 @@ class LoginPages extends StatefulWidget {
 class _LoginPagesState extends State<LoginPages> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    return Container(
+      color: Colors.black,
+    );
   }
 }
