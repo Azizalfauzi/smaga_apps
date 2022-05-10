@@ -10,6 +10,20 @@ class SplashScreenPages extends StatefulWidget {
 class _SplashScreenPagesState extends State<SplashScreenPages> {
   @override
   Widget build(BuildContext context) {
-    return Container();
+    Widget example1 = SplashScreenView(
+      navigateRoute: const OnboardingPages(),
+      duration: 3000,
+      imageSize: 130,
+      imageSrc: "assets/images/ic_logo.png",
+      text: "SMAGA APPS",
+      textType: TextType.ColorizeAnimationText,
+      textStyle: TextStyle(
+        fontSize: 26.0,
+        fontWeight: bold,
+        color: kPrimaryColor,
+      ),
+      backgroundColor: Colors.white,
+    );
+    return example1;
   }
 }

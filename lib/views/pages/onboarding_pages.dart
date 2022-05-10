@@ -8,8 +8,66 @@ class OnboardingPages extends StatefulWidget {
 }
 
 class _OnboardingPagesState extends State<OnboardingPages> {
+  final introKey = GlobalKey<_OnboardingPagesState>();
+
+  void _onIntroEnd(context) {
+    Navigator.of(context).push(
+      MaterialPageRoute(builder: (_) => const LoginPages()),
+    );
+  }
+
+  Widget _buildImage(String images, [double width = 350]) {
+    return Image.asset('assets/images/$images', width: width);
+  }
+
   @override
   Widget build(BuildContext context) {
-    return Container();
+    const bodyStyle = TextStyle(fontSize: 19.0);
+    const pageDecoration = PageDecoration(
+      titleTextStyle: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w700),
+      bodyTextStyle: bodyStyle,
+      bodyPadding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
+      pageColor: Colors.white,
+      imagePadding: EdgeInsets.zero,
+    );
+    return IntroductionScreen(
+      key: introKey,
+      globalBackgroundColor: Colors.white,
+      pages: [
+        PageViewModel(
+          title: "Fractional shares",
+          body: "Aplikasi milik SMAN 1 Gondang Tulungagung",
+          image: _buildImage('ic_onboard1.png'),
+          decoration: pageDecoration,
+        ),
+        PageViewModel(
+          title: "Learn as you go",
+          body: "Semua akan lebih mudah menggunakan SMAGA APPS",
+          image: _buildImage('ic_onboard2.png'),
+          decoration: pageDecoration,
+        ),
+      ],
+      onDone: () => _onIntroEnd(context),
+      //onSkip: () => _onIntroEnd(context), // You can override onSkip callback
+      showSkipButton: false,
+      skipOrBackFlex: 0,
+      nextFlex: 0,
+      showBackButton: true,
+      //rtl: true, // Display as right-to-left
+      back: const Icon(Icons.arrow_back),
+      skip: const Text('Skip', style: TextStyle(fontWeight: FontWeight.w600)),
+      next: const Icon(Icons.arrow_forward),
+      done: const Text('Done', style: TextStyle(fontWeight: FontWeight.w600)),
+      curve: Curves.fastLinearToSlowEaseIn,
+      controlsMargin: const EdgeInsets.all(16),
+      dotsDecorator: const DotsDecorator(
+        size: Size(10.0, 10.0),
+        color: Color(0xFFBDBDBD),
+        activeSize: Size(22.0, 10.0),
+        activeShape: RoundedRectangleBorder(
+          borderRadius: BorderRadius.all(Radius.circular(25.0)),
+        ),
+      ),
+    );
   }
 }
