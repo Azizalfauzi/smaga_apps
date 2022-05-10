@@ -11,14 +11,16 @@ class _SplashScreenPagesState extends State<SplashScreenPages> {
   @override
   Widget build(BuildContext context) {
     Widget example1 = SplashScreenView(
-      navigateRoute: const LoginPages(),
-      duration: 5000,
+      navigateRoute: const OnboardingPages(),
+      duration: 3000,
       imageSize: 130,
-      imageSrc: "assets/images/madu-euy.jpg",
-      text: "Splash Screen",
+      imageSrc: "assets/images/ic_logo.png",
+      text: "SMAGA APPS",
       textType: TextType.ColorizeAnimationText,
-      textStyle: const TextStyle(
-        fontSize: 40.0,
+      textStyle: TextStyle(
+        fontSize: 26.0,
+        fontWeight: bold,
+        color: kPrimaryColor,
       ),
       backgroundColor: Colors.white,
     );
