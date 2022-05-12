@@ -7,3 +7,7 @@ import '../widget/widget.dart';
 part 'login_pages.dart';
 part 'onboarding_pages.dart';
 part 'splashscreen_pages.dart';
+part 'main_page.dart';
+part 'scan_absen_page.dart';
+part 'home_page.dart';
+part 'profile_page.dart';
