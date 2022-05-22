@@ -13,7 +13,7 @@ class _SplashScreenPagesState extends State<SplashScreenPages> {
     Widget example1 = SplashScreenView(
       navigateRoute: const OnboardingPages(),
       duration: 3000,
-      imageSize: 130,
+      imageSize: 200,
       imageSrc: "assets/images/ic_logo.png",
       text: "SMAGA APPS",
       textType: TextType.ColorizeAnimationText,
