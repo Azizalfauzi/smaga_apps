@@ -11,8 +11,9 @@ class _OnboardingPagesState extends State<OnboardingPages> {
   final introKey = GlobalKey<_OnboardingPagesState>();
 
   void _onIntroEnd(context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => const LoginPages()),
+    Navigator.pushNamed(
+      context,
+      '/login-page',
     );
   }
 

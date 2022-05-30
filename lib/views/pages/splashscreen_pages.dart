@@ -14,7 +14,7 @@ class _SplashScreenPagesState extends State<SplashScreenPages> {
       navigateRoute: const OnboardingPages(),
       duration: 3000,
       imageSize: 200,
-      imageSrc: "assets/images/ic_logo.png",
+      imageSrc: "assets/images/ic_logo_big.png",
       text: "SMAGA APPS",
       textType: TextType.ColorizeAnimationText,
       textStyle: TextStyle(

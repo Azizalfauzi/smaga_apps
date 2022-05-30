@@ -16,7 +16,7 @@ class _LoginPagesState extends State<LoginPages> {
           SizedBox(
             height: 250,
             width: 150,
-            child: Image.asset("assets/images/ic_logo.png"),
+            child: Image.asset("assets/images/ic_logo_big.png"),
           ),
           Center(
             child: Text(
@@ -105,14 +105,17 @@ class _LoginPagesState extends State<LoginPages> {
             const SizedBox(
               height: 100,
             ),
-            ButtonWidget(
-              title: "Login",
-              onTap: () {
-                Navigator.of(context).push(MaterialPageRoute(
-                    builder: (context) => const MainPage(
-                          initialPage: 0,
-                        )));
-              },
+            Padding(
+              padding: const EdgeInsets.only(left: 18, right: 18),
+              child: ButtonWidget(
+                title: "Login",
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    '/main-page',
+                  );
+                },
+              ),
             ),
           ],
         ),

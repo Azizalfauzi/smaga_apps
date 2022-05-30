@@ -17,7 +17,15 @@ class MyApp extends StatelessWidget {
       theme: ThemeData(
         primarySwatch: Colors.blue,
       ),
-      home: const SplashScreenPages(),
+      initialRoute: '/',
+      routes: {
+        '/': ((context) => const SplashScreenPages()),
+        '/login-page': ((context) => const LoginPages()),
+        '/main-page': ((context) => const MainPage(initialPage: 0)),
+        '/jadwal-page': ((context) => const JadwalPage()),
+        '/jadwal-detail-page': ((context) => const DetailJadwalPage()),
+        '/pengumuman-detail-page': ((context) => const DetailPengumumanPage()),
+      },
     );
   }
 }

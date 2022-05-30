@@ -68,26 +68,35 @@ class _HomePageState extends State<HomePage> {
       child: Column(
         children: [
           Row(
-            children: const [
+            children: [
               ButtonHomeWidget(
                 image: "assets/images/ic_scan_home.png",
                 title: "Scan",
+                onTap: () {},
               ),
               ButtonHomeWidget(
                 image: "assets/images/ic_programmer_home.png",
                 title: "Profil",
+                onTap: () {},
               ),
             ],
           ),
           Row(
-            children: const [
+            children: [
               ButtonHomeWidget(
                 image: "assets/images/ic_calendar_home.png",
                 title: "Jadwal",
+                onTap: () {
+                  Navigator.pushNamed(
+                    context,
+                    '/jadwal-page',
+                  );
+                },
               ),
               ButtonHomeWidget(
                 image: "assets/images/ic_book_home.png",
                 title: "Riwayat",
+                onTap: () {},
               ),
             ],
           )
@@ -106,13 +115,29 @@ class _HomePageState extends State<HomePage> {
             child: Column(
               children: mockPengumuman
                   .map(
-                    (e) => Padding(
-                      padding: const EdgeInsets.fromLTRB(
-                          defaultMargin, 0, defaultMargin, 0),
-                      child: Card(
-                        child: ListTile(
-                          title: Text(e.title),
-                          subtitle: Text(e.subtitle),
+                    (e) => GestureDetector(
+                      onTap: () {
+                        Navigator.pushNamed(context, '/pengumuman-detail-page',
+                            arguments: {
+                              "title": e.title,
+                              "subtitle": e.subtitle,
+                              "img": e.image,
+                              "data": e.data,
+                            });
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.fromLTRB(
+                            defaultMargin, 0, defaultMargin, 0),
+                        child: Card(
+                          child: ListTile(
+                            leading: SizedBox(
+                              height: 50,
+                              width: 60,
+                              child: Image.asset(e.image),
+                            ),
+                            title: Text(e.title),
+                            subtitle: Text(e.subtitle),
+                          ),
                         ),
                       ),
                     ),

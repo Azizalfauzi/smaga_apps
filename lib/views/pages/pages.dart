@@ -12,3 +12,6 @@ part 'main_page.dart';
 part 'scan_absen_page.dart';
 part 'home_page.dart';
 part 'profile_page.dart';
+part 'jadwal_page.dart';
+part 'detail_jadwal_page.dart';
+part 'detail_pengumuman_page.dart';
