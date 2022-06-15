@@ -8,23 +8,31 @@ class OnboardingPages extends StatefulWidget {
 }
 
 class _OnboardingPagesState extends State<OnboardingPages> {
+  void _addStatusPage() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    var statusPage = 1;
+    await preferences.setInt('statuspage', statusPage);
+  }
+
   final introKey = GlobalKey<_OnboardingPagesState>();
 
   void _onIntroEnd(context) {
-    Navigator.of(context).push(
-      MaterialPageRoute(builder: (_) => const LoginPages()),
+    Navigator.pushNamed(
+      context,
+      '/login-page',
     );
+    _addStatusPage();
   }
 
-  Widget _buildImage(String images, [double width = 350]) {
+  Widget _buildImage(String images, [double width = 200]) {
     return Image.asset('assets/images/$images', width: width);
   }
 
   @override
   Widget build(BuildContext context) {
-    const bodyStyle = TextStyle(fontSize: 19.0);
+    const bodyStyle = TextStyle(fontSize: 16.0);
     const pageDecoration = PageDecoration(
-      titleTextStyle: TextStyle(fontSize: 28.0, fontWeight: FontWeight.w700),
+      titleTextStyle: TextStyle(fontSize: 24.0, fontWeight: FontWeight.w700),
       bodyTextStyle: bodyStyle,
       bodyPadding: EdgeInsets.fromLTRB(16.0, 0.0, 16.0, 16.0),
       pageColor: Colors.white,
@@ -35,13 +43,13 @@ class _OnboardingPagesState extends State<OnboardingPages> {
       globalBackgroundColor: Colors.white,
       pages: [
         PageViewModel(
-          title: "Fractional shares",
+          title: "Selamat Datang",
           body: "Aplikasi milik SMAN 1 Gondang Tulungagung",
           image: _buildImage('ic_onboard1.png'),
           decoration: pageDecoration,
         ),
         PageViewModel(
-          title: "Learn as you go",
+          title: "Bermimpilah Setinggi Langit",
           body: "Semua akan lebih mudah menggunakan SMAGA APPS",
           image: _buildImage('ic_onboard2.png'),
           decoration: pageDecoration,

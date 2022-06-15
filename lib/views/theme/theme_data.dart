@@ -10,6 +10,7 @@ const Color kPrimaryColor = Color(0xff0EBBCB);
 const Color kSecondaryColor = Color(0xffFFFCFC);
 const Color kThirdColor = Color(0xFF98D7E8);
 const Color kBlackColor = Color(0xff36414C);
+const Color kSecondaryGreyColor = Color(0xff8F9CA9);
 
 TextStyle blackTextStyleInter = GoogleFonts.inter(
   color: kBlackColor,
@@ -19,6 +20,9 @@ TextStyle blueTextStyleInter = GoogleFonts.inter(
 );
 TextStyle blueThirdTextStyleInter = GoogleFonts.inter(
   color: kThirdColor,
+);
+TextStyle whiteTextStyleInter = GoogleFonts.inter(
+  color: const Color(0xffFEFEFE),
 );
 
 FontWeight light = FontWeight.w300;
