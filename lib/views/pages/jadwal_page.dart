@@ -8,6 +8,12 @@ class JadwalPage extends StatefulWidget {
 }
 
 class _JadwalPageState extends State<JadwalPage> {
+  @override
+  void initState() {
+    context.read<JadwalCubit>().jadwalFetch();
+    super.initState();
+  }
+
   Widget header() {
     return GestureDetector(
       onTap: () {
@@ -38,115 +44,90 @@ class _JadwalPageState extends State<JadwalPage> {
   }
 
   Widget content() {
-    return Column(
-      children: [
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: ButtonJadwalWidget(
-                title: "Senin",
-                img: "assets/images/ic_mon.png",
-                onTap: () {
-                  Navigator.pushNamed(context, '/jadwal-detail-page',
-                      arguments: {
-                        "id": 1,
-                        "hari": "Senin",
-                        "img": "assets/images/ic_mon.png"
-                      });
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: ButtonJadwalWidget(
-                title: "Selasa",
-                img: "assets/images/ic_tues.png",
-                onTap: () {
-                  Navigator.pushNamed(context, '/jadwal-detail-page',
-                      arguments: {
-                        "id": 2,
-                        "hari": "Selasa",
-                        "img": "assets/images/ic_tues.png"
-                      });
-                },
-              ),
-            ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: ButtonJadwalWidget(
-                title: "Rabu",
-                img: "assets/images/ic_thr.png",
-                onTap: () {
-                  Navigator.pushNamed(context, '/jadwal-detail-page',
-                      arguments: {
-                        "id": 3,
-                        "hari": "Rabu",
-                        "img": "assets/images/ic_thr.png"
-                      });
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: ButtonJadwalWidget(
-                title: "Kamis",
-                img: "assets/images/ic_wed.png",
-                onTap: () {
-                  Navigator.pushNamed(context, '/jadwal-detail-page',
-                      arguments: {
-                        "id": 4,
-                        "hari": "Kamis",
-                        "img": "assets/images/ic_wed.png"
-                      });
-                },
-              ),
-            ),
-          ],
-        ),
-        Row(
-          mainAxisAlignment: MainAxisAlignment.spaceEvenly,
-          children: [
-            Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: ButtonJadwalWidget(
-                title: "Jumat",
-                img: "assets/images/ic_fri.png",
-                onTap: () {
-                  Navigator.pushNamed(context, '/jadwal-detail-page',
-                      arguments: {
-                        "id": 5,
-                        "hari": "Jumat",
-                        "img": "assets/images/ic_fri.png"
-                      });
-                },
-              ),
-            ),
-            Padding(
-              padding: const EdgeInsets.only(top: 20),
-              child: ButtonJadwalWidget(
-                title: "Sabtu",
-                img: "assets/images/ic_sat.png",
-                onTap: () {
-                  Navigator.pushNamed(context, '/jadwal-detail-page',
-                      arguments: {
-                        "id": 6,
-                        "hari": "Sabtu",
-                        "img": "assets/images/ic_sat.png"
-                      });
-                },
-              ),
-            ),
-          ],
-        ),
-      ],
+    return SizedBox(
+      height: 200,
+      width: double.infinity,
+      child: BlocBuilder<JadwalCubit, JadwalState>(
+        builder: (context, state) {
+          if (state is JadwalGetSuccess) {
+            return GridView.count(
+                crossAxisCount: 2,
+                children: state.result
+                    .map(
+                      (e) => Padding(
+                        padding: const EdgeInsets.only(top: 20),
+                        child: ButtonJadwalWidget(
+                          title: e.hari,
+                          img: e.img,
+                          onTap: () {
+                            Navigator.pushNamed(context, '/jadwal-detail-page',
+                                arguments: {
+                                  "hari": e.hari,
+                                  "img": e.img,
+                                  "jam1": e.jam1,
+                                  "jam2": e.jam2,
+                                  "jam3": e.jam3,
+                                  "jam4": e.jam4,
+                                  "jam5": e.jam5,
+                                  "jadwal1": e.jadwal1,
+                                  "jadwal2": e.jadwal2,
+                                  "jadwal3": e.jadwal3,
+                                  "jadwal4": e.jadwal4,
+                                  "jadwal5": e.jadwal5,
+                                });
+                          },
+                        ),
+                      ),
+                    )
+                    .toList());
+          } else if (state is JadwalGetFailed) {
+            return const SizedBox();
+          } else {
+            return const SizedBox();
+          }
+        },
+      ),
     );
+    // Column(
+    //   children: [
+
+    // Row(
+    //   mainAxisAlignment: MainAxisAlignment.spaceEvenly,
+    //   children: [
+    //     Padding(
+    //       padding: const EdgeInsets.only(top: 20),
+    //       child: ButtonJadwalWidget(
+    //         title: "Senin",
+    //         img: "assets/images/ic_mon.png",
+    //         onTap: () {
+    //           Navigator.pushNamed(context, '/jadwal-detail-page',
+    //               arguments: {
+    //                 "id": 1,
+    //                 "hari": "Senin",
+    //                 "img": "assets/images/ic_mon.png"
+    //               });
+    //         },
+    //       ),
+    //     ),
+    //     Padding(
+    //       padding: const EdgeInsets.only(top: 20),
+    //       child: ButtonJadwalWidget(
+    //         title: "Selasa",
+    //         img: "assets/images/ic_tues.png",
+    //         onTap: () {
+    //           Navigator.pushNamed(context, '/jadwal-detail-page',
+    //               arguments: {
+    //                 "id": 2,
+    //                 "hari": "Selasa",
+    //                 "img": "assets/images/ic_tues.png"
+    //               });
+    //         },
+    //       ),
+    //     ),
+    //   ],
+    // ),
+    //   ],
+    // );
   }
 
   @override

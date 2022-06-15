@@ -3,7 +3,7 @@ part of 'widget.dart';
 class ButtonJadwalWidget extends StatelessWidget {
   final String title;
   final String img;
-  final onTap;
+  final Function onTap;
   const ButtonJadwalWidget({
     Key? key,
     required this.title,
@@ -33,9 +33,7 @@ class ButtonJadwalWidget extends StatelessWidget {
                   left: 35,
                   top: 20,
                 ),
-                child: Image(
-                  image: AssetImage(img),
-                ),
+                child: Image.network(img),
               ),
               Padding(
                 padding: const EdgeInsets.only(left: 35),

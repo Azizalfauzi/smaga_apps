@@ -8,6 +8,12 @@ class OnboardingPages extends StatefulWidget {
 }
 
 class _OnboardingPagesState extends State<OnboardingPages> {
+  void _addStatusPage() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    var statusPage = 1;
+    await preferences.setInt('statuspage', statusPage);
+  }
+
   final introKey = GlobalKey<_OnboardingPagesState>();
 
   void _onIntroEnd(context) {
@@ -15,6 +21,7 @@ class _OnboardingPagesState extends State<OnboardingPages> {
       context,
       '/login-page',
     );
+    _addStatusPage();
   }
 
   Widget _buildImage(String images, [double width = 200]) {

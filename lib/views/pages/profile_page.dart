@@ -65,29 +65,77 @@ class ProfilePage extends StatelessWidget {
   }
 
   Widget content() {
-    return Padding(
-      padding: const EdgeInsets.only(top: 30, left: 18, right: 18),
-      child: Column(
-        children: [
-          const InputReadOnly(label: "Nama :", input: "Aziz Alfauzi"),
-          const InputReadOnly(label: "Nis :", input: "13012123"),
-          const InputReadOnly(
-              label: "Tanggal Lahir :", input: "12 Nopember 1998"),
-          const InputReadOnly(label: "Kelas :", input: "MIA-05"),
-          const SizedBox(
-            height: 60,
-          ),
-          ButtonWidget(
-            title: "Logout",
-            onTap: () {},
-          ),
-        ],
-      ),
+    return BlocBuilder<AuthCubit, AuthState>(
+      builder: (context, state) {
+        if (state is AuthLoginSuccess) {
+          return Padding(
+            padding: const EdgeInsets.only(top: 30, left: 18, right: 18),
+            child: Column(
+              children: [
+                InputReadOnly(
+                  label: "Nama :",
+                  input: state.result.name.toString(),
+                ),
+                InputReadOnly(
+                  label: "Nis :",
+                  input: state.result.nis.toString(),
+                ),
+                const InputReadOnly(
+                  label: "Tanggal Lahir :",
+                  input: "12 Nopember 1998",
+                ),
+                InputReadOnly(
+                  label: "Kelas :",
+                  input: state.result.kelas.toString(),
+                ),
+              ],
+            ),
+          );
+        } else if (state is AuthLoginFailed) {
+          return const SizedBox();
+        } else {
+          return const SizedBox();
+        }
+      },
     );
   }
 
   Widget buttonLogout() {
-    return Container();
+    return BlocConsumer<AuthCubit, AuthState>(
+      listener: (context, state) {
+        if (state is AuthLoginFailed) {
+          ScaffoldMessenger.of(context).showSnackBar(
+            SnackBar(
+              backgroundColor: Colors.red,
+              content: Text(state.message),
+            ),
+          );
+        } else if (state is AuthInitial) {
+          Navigator.pushNamedAndRemoveUntil(
+              context, '/login-page', (route) => false);
+        }
+      },
+      builder: (context, state) {
+        if (state is AuthLoginLoding) {
+          return const Center(
+            child: CircularProgressIndicator(),
+          );
+        }
+        return Padding(
+          padding: const EdgeInsets.only(
+            left: defaultMargin,
+            right: defaultMargin,
+            top: 60
+          ),
+          child: ButtonWidget(
+            title: "Logout",
+            onTap: () {
+              context.read<AuthCubit>().signOut();
+            },
+          ),
+        );
+      },
+    );
   }
 
   @override

@@ -10,7 +10,7 @@ class DetailPengumumanPage extends StatelessWidget {
       return SizedBox(
         height: 300,
         width: double.infinity,
-        child: Image.asset(
+        child: Image.network(
           arguments["img"],
         ),
       );
@@ -38,13 +38,6 @@ class DetailPengumumanPage extends StatelessWidget {
             ),
             const SizedBox(
               height: 20,
-            ),
-            Text(
-              arguments["data"],
-              style: TextStyle(
-                fontWeight: light,
-                fontSize: 14,
-              ),
             ),
           ],
         ),

@@ -9,21 +9,88 @@ class SplashScreenPages extends StatefulWidget {
 
 class _SplashScreenPagesState extends State<SplashScreenPages> {
   @override
-  Widget build(BuildContext context) {
-    Widget example1 = SplashScreenView(
-      navigateRoute: const OnboardingPages(),
-      duration: 3000,
-      imageSize: 200,
-      imageSrc: "assets/images/ic_logo_big.png",
-      text: "SMAGA APPS",
-      textType: TextType.ColorizeAnimationText,
-      textStyle: TextStyle(
-        fontSize: 26.0,
-        fontWeight: bold,
-        color: kPrimaryColor,
+  void initState() {
+    _checkStatusPageToken();
+    super.initState();
+  }
+
+  Future<void> _checkStatusPageToken() async {
+    SharedPreferences preferences = await SharedPreferences.getInstance();
+    int? statusPage = preferences.getInt('statuspage');
+    User? user = FirebaseAuth.instance.currentUser;
+    var duration = const Duration(milliseconds: 2000);
+    Timer(duration, () {
+      if (statusPage != null) {
+        if (user == null) {
+          Navigator.pushNamedAndRemoveUntil(
+              context, '/login-page', (route) => false);
+        } else {
+          context.read<AuthCubit>().getCurrentUser(user.uid);
+          Navigator.pushNamedAndRemoveUntil(
+              context, '/main-page', (route) => false);
+        }
+      } else {
+        Navigator.pushNamedAndRemoveUntil(
+            context, '/onboarding-page', (route) => false);
+      }
+    });
+  }
+
+  Widget imageCenter() {
+    return Container(
+      height: 120,
+      width: 200,
+      decoration: const BoxDecoration(
+        image: DecorationImage(
+          image: AssetImage('assets/images/ic_logo_big.png'),
+        ),
       ),
-      backgroundColor: Colors.white,
     );
-    return example1;
+  }
+
+  Widget centerContent() {
+    return SafeArea(
+      child: Center(
+        child: Column(
+          mainAxisAlignment: MainAxisAlignment.center,
+          crossAxisAlignment: CrossAxisAlignment.center,
+          children: [
+            imageCenter(),
+            const SizedBox(
+              height: 20,
+            ),
+            Text(
+              'SMAGA APPS',
+              style: blueTextStyleInter.copyWith(
+                fontWeight: bold,
+                fontSize: 24,
+              ),
+              textAlign: TextAlign.center,
+            ),
+          ],
+        ),
+      ),
+    );
+  }
+
+  @override
+  Widget build(BuildContext context) {
+    return Scaffold(
+      body: Stack(
+        children: [
+          Container(
+            color: Colors.white,
+          ),
+          //warna dasar splash
+          SafeArea(
+            child: Container(
+              color: Colors.white,
+            ),
+          ),
+          //content
+          centerContent(),
+        ],
+      ),
+    );
   }
 }

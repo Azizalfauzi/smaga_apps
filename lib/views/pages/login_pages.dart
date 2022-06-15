@@ -8,6 +8,19 @@ class LoginPages extends StatefulWidget {
 }
 
 class _LoginPagesState extends State<LoginPages> {
+  bool _obscureText = true;
+  void _toggle() {
+    setState(() {
+      _obscureText = !_obscureText;
+    });
+  }
+
+  String _emailController = '';
+  String _passwordController = '';
+
+  //key form
+  final _formKey = GlobalKey<FormState>();
+
   Widget header() {
     return Padding(
       padding: const EdgeInsets.only(top: 100),
@@ -37,6 +50,7 @@ class _LoginPagesState extends State<LoginPages> {
         top: 50,
       ),
       child: Form(
+        key: _formKey,
         child: Column(
           children: [
             TextFormField(
@@ -45,46 +59,51 @@ class _LoginPagesState extends State<LoginPages> {
                   Icons.person,
                   color: kPrimaryColor,
                 ),
-                hintText: 'Masukan username anda',
-                labelText: 'Username',
+                hintText: 'Masukan email anda',
+                labelText: 'email',
                 labelStyle: TextStyle(color: kPrimaryColor),
                 hintStyle: TextStyle(
                   color: kPrimaryColor,
                 ),
               ),
-              onSaved: (String? value) {
-                // This optional block of code can be used to run
-                // code when the user saves the form.
+              onSaved: (value) {
+                _emailController = value!;
               },
-              validator: (String? value) {
-                return (value != null && value.contains('@'))
-                    ? 'Jangan menggunakan karakter dan inputan tidak boleh kosong'
-                    : null;
+              validator: (value) {
+                return (value == "") ? 'Inputan tidak boleh kosong!' : null;
               },
             ),
             const SizedBox(
               height: 20,
             ),
             TextFormField(
-              decoration: const InputDecoration(
-                icon: Icon(
+              decoration: InputDecoration(
+                icon: const Icon(
                   Icons.key,
                   color: kPrimaryColor,
                 ),
                 hintText: 'Masukan password anda',
                 labelText: 'Password',
-                labelStyle: TextStyle(color: kPrimaryColor),
-                hintStyle: TextStyle(
+                labelStyle: const TextStyle(color: kPrimaryColor),
+                hintStyle: const TextStyle(
                   color: kPrimaryColor,
                 ),
+                suffix: InkWell(
+                  onTap: _toggle,
+                  child: Icon(
+                    _obscureText ? Icons.visibility : Icons.visibility_off,
+                    size: 15.0,
+                    color: kPrimaryColor,
+                  ),
+                ),
               ),
-              onSaved: (String? value) {
-                // This optional block of code can be used to run
-                // code when the user saves the form.
+              onSaved: (value) {
+                _passwordController = value!;
               },
-              validator: (String? value) {
-                return (value != null) ? 'Inputan tidak boleh kosong!' : null;
+              validator: (value) {
+                return (value == "") ? 'Inputan tidak boleh kosong!' : null;
               },
+              obscureText: _obscureText,
             )
           ],
         ),
@@ -107,12 +126,53 @@ class _LoginPagesState extends State<LoginPages> {
             ),
             Padding(
               padding: const EdgeInsets.only(left: 18, right: 18),
-              child: ButtonWidget(
-                title: "Login",
-                onTap: () {
-                  Navigator.pushNamed(
-                    context,
-                    '/main-page',
+              child: BlocConsumer<AuthCubit, AuthState>(
+                listener: (context, state) {
+                  if (state is AuthLoginSuccess) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      const SnackBar(
+                        backgroundColor: Colors.green,
+                        content: Text("Berhasil melakukan login"),
+                      ),
+                    );
+                  } else if (state is AuthLoginFailed) {
+                    ScaffoldMessenger.of(context).showSnackBar(
+                      SnackBar(
+                        backgroundColor: Colors.red,
+                        content: Text(state.message),
+                      ),
+                    );
+                  }
+                },
+                builder: (context, state) {
+                  if (state is AuthLoginLoding) {
+                    return const Center(
+                      child: SpinKitFadingCircle(
+                        color: kPrimaryColor,
+                        size: 50,
+                      ),
+                    );
+                  }
+                  return ButtonWidget(
+                    title: "Login",
+                    onTap: () {
+                      if (_formKey.currentState!.validate()) {
+                        _formKey.currentState!.save();
+                        context.read<AuthCubit>().signUp(
+                              _emailController,
+                              _passwordController,
+                              "Harun",
+                            );
+                      } else {
+                        ScaffoldMessenger.of(context).showSnackBar(
+                          const SnackBar(
+                            backgroundColor: Colors.red,
+                            content:
+                                Text("Lakukan pengisian form dengan benar!"),
+                          ),
+                        );
+                      }
+                    },
                   );
                 },
               ),
